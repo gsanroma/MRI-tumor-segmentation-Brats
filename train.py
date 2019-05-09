@@ -2,8 +2,10 @@ import numpy as np
 import tf_models
 from sklearn.preprocessing import scale
 import tensorflow as tf
-from tensorflow.contrib.keras.python.keras.backend import learning_phase
-from tensorflow.contrib.keras.python.keras.layers import concatenate, Conv3D
+from keras.backend import learning_phase
+from keras.layers import concatenate, Conv3D
+#from tensorflow.contrib.keras.python.keras.backend import learning_phase
+#from tensorflow.contrib.keras.python.keras.layers import concatenate, Conv3D
 from nibabel import load as load_nii
 import os
 import argparse
