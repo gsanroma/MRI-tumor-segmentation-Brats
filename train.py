@@ -120,21 +120,21 @@ def vox_generator(all_files, n_pos, n_neg,correction= False):
     path = options['root_path']
     while 1:
         for file in all_files:
-            if correction:
-                flair = load_nii(os.path.join(path, file, file + '_flair_corrected.nii.gz')).get_data()
-                t2 = load_nii(os.path.join(path, file, file + '_t2_corrected.nii.gz')).get_data()
-                t1 = load_nii(os.path.join(path, file, file + '_t1_corrected.nii.gz')).get_data()
-                t1ce = load_nii(os.path.join(path, file, file + '_t1ce_corrected.nii.gz')).get_data()
-            else:
+            # if correction:
+            #     flair = load_nii(os.path.join(path, file, file + '_flair_corrected.nii.gz')).get_data()
+            #     t2 = load_nii(os.path.join(path, file, file + '_t2_corrected.nii.gz')).get_data()
+            #     t1 = load_nii(os.path.join(path, file, file + '_t1_corrected.nii.gz')).get_data()
+            #     t1ce = load_nii(os.path.join(path, file, file + '_t1ce_corrected.nii.gz')).get_data()
+            # else:
 
-                flair = load_nii(os.path.join(path, file, file + '_flair.nii.gz')).get_data()
-                t2 = load_nii(os.path.join(path, file, file + '_t2.nii.gz')).get_data()
-                t1 = load_nii(os.path.join(path, file, file + '_t1.nii.gz')).get_data()
-                t1ce = load_nii(os.path.join(path, file, file + '_t1ce.nii.gz')).get_data()
+            flair = load_nii(os.path.join(path, file, 'flair.nii.gz')).get_data()
+            t2 = load_nii(os.path.join(path, file, file + 't2.nii.gz')).get_data()
+            t1 = load_nii(os.path.join(path, file, file + 't1.nii.gz')).get_data()
+            t1ce = load_nii(os.path.join(path, file, file + 't1ce.nii.gz')).get_data()
 
             data_norm = np.array([norm(flair), norm(t2), norm(t1), norm(t1ce)])
             data_norm = np.transpose(data_norm, axes=[1, 2, 3, 0])
-            labels = load_nii(os.path.join(path, file, file+'_seg.nii.gz')).get_data()
+            labels = load_nii(os.path.join(path, file, 'truth.nii.gz')).get_data()
 
             foreground = np.array(np.where(labels > 0))
             background = np.array(np.where((labels == 0) & (flair > 0)))
@@ -223,7 +223,7 @@ def train():
         optimizer = tf.train.AdamOptimizer(learning_rate=5e-4).minimize(loss)
 
     saver = tf.train.Saver(max_to_keep=15)
-    data_gen_train = vox_generator(all_files=files, n_pos=200, n_neg=200,correction = options['correction'])
+    data_gen_train = vox_generator(all_files=files, n_pos=200, n_neg=200,correction = False)#options['correction'])
 
     with tf.Session() as sess:
         if continue_training:
