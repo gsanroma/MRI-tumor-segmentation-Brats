@@ -128,9 +128,9 @@ def vox_generator(all_files, n_pos, n_neg,correction= False):
             # else:
 
             flair = load_nii(os.path.join(path, file, 'flair.nii.gz')).get_data()
-            t2 = load_nii(os.path.join(path, file, file + 't2.nii.gz')).get_data()
-            t1 = load_nii(os.path.join(path, file, file + 't1.nii.gz')).get_data()
-            t1ce = load_nii(os.path.join(path, file, file + 't1ce.nii.gz')).get_data()
+            t2 = load_nii(os.path.join(path, file, 't2.nii.gz')).get_data()
+            t1 = load_nii(os.path.join(path, file, 't1.nii.gz')).get_data()
+            t1ce = load_nii(os.path.join(path, file, 't1ce.nii.gz')).get_data()
 
             data_norm = np.array([norm(flair), norm(t2), norm(t1), norm(t1ce)])
             data_norm = np.transpose(data_norm, axes=[1, 2, 3, 0])
